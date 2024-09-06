@@ -1,18 +1,21 @@
 #!/bin/bash
 
-# echo '>>> downloading resource'
-# wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1BuvigAY_CgZfYIulFsQbJ9_fjWyKhmgC' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1BuvigAY_CgZfYIulFsQbJ9_fjWyKhmgC" -O resource.tar.gz && rm -rf cookies.txt
-# tar -xvf resource.tar.gz
+pip install gdown
+pip install --upgrade gdown
 
 echo '>>> downloading dataset'
-wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1z_qBhY_Nvk-j4XxQP-Y8AmGEoJxXxCSS' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1z_qBhY_Nvk-j4XxQP-Y8AmGEoJxXxCSS" -O data.tar.gz && rm -rf cookies.txt
+gdown --fuzzy 'https://drive.google.com/file/d/1Aef1ZFSE3i_7Ay4zaeaYtdrnAK4EPYOe/view?usp=sharing'
 tar -xvf data.tar.gz
 
-# echo '>>> downloading checkpoints'
-# wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1qdllazs_NgSmA0DljyfyvLbms081Ti6x' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1qdllazs_NgSmA0DljyfyvLbms081Ti6x" -O checkpoints.tar.gz && rm -rf cookies.txt
-# tar -xvf checkpoints.tar.gz
+echo '>>> downloading resource'
+gdown --fuzzy https://drive.google.com/file/d/1olQRid8H9iKfYcbePbzZVJ3J2pX96kZ3/view?usp=sharing
+tar -xvf resource.tar.gz
 
-# echo '>>> create folders'
-# mkdir log
-# mkdir log/train
-# mkdir log/attack
+echo '>>> downloading checkpoints'
+gdown --fuzzy https://drive.google.com/file/d/1xXprQOHFEJWhECoBYg3yKO5sUY6R_ksv/view?usp=sharing
+tar -xvf checkpoints.tar.gz
+
+echo '>>> create folders'
+mkdir log
+mkdir log/train
+mkdir log/attack

@@ -1,0 +1,7 @@
+.idea
+*.tar.gz
+venv
+checkpoints
+data
+resource
+log

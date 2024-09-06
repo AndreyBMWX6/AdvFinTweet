@@ -16,7 +16,7 @@ elif [ $1 == 'tweetlstm' ]
 then
     train_name='tweetlstm_train_gsize100_hsize150_alpha0.1_nmsg30_nword40_lr0.01_wd1.0_schedule10_0.5' 
     ckpt_epoch=29
-elif [ $1 == 'stocknet']
+elif [ $1 == 'stocknet' ]
 then
     train_name='stocknet_train_gsize100_hsize150_alpha0.1_nmsg30_nword40_lr0.01_wd1.0_schedule10_0.5' 
     ckpt_epoch=15
