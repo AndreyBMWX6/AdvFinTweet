@@ -87,6 +87,7 @@ class StockData(Dataset):
         self.dates = defaultdict(list)
         missing = []
         for ticker in self.tickers:
+            print(f"DEBUG: _gen_dates(), ticker: {ticker}")
             file = pd.read_csv(os.path.join(self.technical_path, ticker+'.csv'), parse_dates=[0])
             dat = pd.date_range(self.global_start_date, self.global_end_date, freq='D')
             dates = file['date'][(file.date >= dat[0]) & (file.date <= dat[-1])]
@@ -96,6 +97,7 @@ class StockData(Dataset):
                 missing.append(ticker)
         for miss in missing:
             self.tickers.remove(miss)
+        print(f"DEBUG: _gen_dates() finished")
             
     def _read_text(self):
         """
@@ -110,6 +112,7 @@ class StockData(Dataset):
 
         texts, words_count, msgs_count, msgs = {}, {}, {}, {}
         for tic in self.tickers:
+            print(f"DEBUG: _read_text(), ticker: {tic}")
             missing = []
             texts[tic], words_count[tic], msgs_count[tic], msgs[tic] = {}, {}, {}, defaultdict(list)
             for date in self.dates[tic]:
@@ -151,6 +154,8 @@ class StockData(Dataset):
                     missing.append(date)
             for miss in missing:
                 self.dates[tic].remove(miss)
+
+        print(f"DEBUG: _read_text() finished")
         return texts, words_count, msgs_count, msgs
 
     def _read_technical(self):
@@ -158,19 +163,23 @@ class StockData(Dataset):
         # collect data
         technical = {}
         for tic in self.tickers:
+            print(f"DEBUG: _read_technical() ticker {tic}")
             file = pd.read_csv(os.path.join(self.technical_path, '{}.csv'.format(tic.upper())), parse_dates=[0])
             file['date'] = file['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
             file = file[['date', 'high', 'low', 'close']]
             technical[tic] = file.set_index('date').T.to_dict('list')
+        print(f"DEBUG: _read_technical() finished")
         return technical
 
     def _read_return(self):
         """Read label, here returns for each tickers."""
         ret = {}
         for tic in self.tickers:
+            print(f"DEBUG: _read_return(), ticker: {tic}")
             file = pd.read_csv(os.path.join(self.label_path, '{}.csv'.format(tic.upper())), parse_dates=[0])
             file['date'] = file['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
             ret[tic] = file.set_index('date').T.to_dict('list')
+        print(f"DEBUG: _read_return() finished")
         return ret
 
     def _generate_index(self):
@@ -192,6 +201,7 @@ class StockData(Dataset):
                 np.random.shuffle(dates)
             idx = 0
             for d in dates:
+                print(f"DEBUG: _generate_index() ticker_combine date {d}")
                 index[idx] = d
                 idx += 1
         else:
@@ -200,11 +210,13 @@ class StockData(Dataset):
                 np.random.shuffle(tickers)
             idx = 0
             for t in tickers:
+                print(f"DEBUG: _generate_index() ticker {t}")
                 ticker = self.tickers[t]
                 dates = [i for i in range(self.day_step, len(self.dates[ticker]))]
                 if self.day_shuffle:
                     np.random.shuffle(dates)
                 for d in dates:
+                    print(f"DEBUG: _generate_index() date {d}")
                     if self.dates[ticker][d] not in dataset_dates:
                         continue
                     if config['model']['threshold']:
