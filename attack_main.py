@@ -98,9 +98,11 @@ print('Finished initializing model and embedding...')
 
 tickers = []
 for indu in config['stocks'].values():
+    print(f"DEBUG: indu: {indu}")
     tickers += indu
 
 dset = StockData(config['dates']['test'], tickers, device)
+print(f"DEBUG: dataset: {dset}")
 loader = DataLoader(dset, opt['batch'], shuffle=False)
 print('Attack datset {} containing {} instance'.format(config['dates']['test'], len(dset)))
 
